@@ -1,0 +1,13 @@
+[package]
+name = "zipwith"
+version = "0.1.0"
+authors = ["Griffin O'Neill <gsoneill1003@gmail.com>"]
+edition = "2018"
+license = "MIT"
+keywords = ["data-structure", "zip", "iterator"] 
+
+[lib]
+name = "zipwith"
+path = "src/lib.rs"
+
+[dependencies]
