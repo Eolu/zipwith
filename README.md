@@ -2,7 +2,7 @@
 
 This is a simple zip-with implementation in Rust. Can be called as a function:
 ```
-use zipwith;
+use zipwith::zip_with;
 use std::cmp::max;
 
 #[test]
@@ -17,7 +17,7 @@ fn zip_with_maxes_func()
 ```
 Or as a method:
 ```
-use zipwith;
+use zipwith::IntoZipWith;
 use std::cmp::max;
 
 #[test]

@@ -6,12 +6,12 @@ use std::iter::{Iterator,IntoIterator};
 #[cfg(test)]
 mod tests 
 {
-    use super::*;
-    use std::cmp::max;
-
     #[test]
     fn zip_with_maxes_func() 
     {
+        use super::zip_with;
+        use std::cmp::max;
+
         let left = vec![0, 44, -12];
         let right = vec![4, 5, -8];
         let result: Vec<i8> = zip_with(left.into_iter(), right.into_iter(), max).collect();
@@ -22,22 +22,15 @@ mod tests
     #[test]
     fn zip_with_maxes_meth() 
     {
+        use super::IntoZipWith;
+        use std::cmp::max;
+
         let left = vec![1, 2, 9];
         let right = vec![4, 5, 6];
         let result: Vec<&u8> = left.iter().zip_with(right.iter(), max).collect();
         
         assert_eq!(result, vec![&4, &5, &9]);
     }
-}
-
-/// ZipWith struct
-#[derive(Clone)]
-#[must_use = "iterator adaptors are lazy and do nothing unless consumed"]
-pub struct ZipWith<T, U, F> 
-{
-    left: T,
-    right: U,
-    zipper: F
 }
 
 /// Create a new zip_with iterator.
@@ -61,6 +54,8 @@ pub fn zip_with<T, U, R, F>(left: T, right: U, zipper: F) -> ZipWith<T, U, F> wh
 // The IntoZipWith trait
 pub trait IntoZipWith: IntoIterator + Sized 
 {
+    /// Create a new zip_with iterator.
+    /// [zip_with](/zipwith/fn.zip_with.html)
     fn zip_with<R, F, S>(self, other: R, zipper: F) -> ZipWith<Self::IntoIter, R::IntoIter, F> where 
         R: Sized + IntoIterator,
         F: Fn(Self::Item, R::Item) -> S
@@ -69,7 +64,20 @@ pub trait IntoZipWith: IntoIterator + Sized
     }
 }
 
-/// Iterator implmentation
+/// Iterators implement IntoZipWith
+impl<T: Iterator> IntoZipWith for T {}
+
+/// ZipWith struct
+#[derive(Clone)]
+#[must_use = "iterator adaptors are lazy and do nothing unless consumed"]
+pub struct ZipWith<T, U, F> 
+{
+    left: T,
+    right: U,
+    zipper: F
+}
+
+/// ZipWith implements Iterator
 impl<T, U, R, F> Iterator for ZipWith<T, U, F> where
     T: Iterator,
     U: Iterator,
@@ -111,6 +119,3 @@ impl<T, U, R, F> Iterator for ZipWith<T, U, F> where
         })
     }
 }
-
-/// Iterators implement IntoZipWith
-impl<T: Iterator> IntoZipWith for T {}
