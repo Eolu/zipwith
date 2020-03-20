@@ -10,7 +10,8 @@ mod tests
     use std::cmp::max;
 
     #[test]
-    fn zip_with_maxes_func() {
+    fn zip_with_maxes_func() 
+    {
         let left = vec![0, 44, -12];
         let right = vec![4, 5, -8];
         let result: Vec<i8> = zip_with(left.into_iter(), right.into_iter(), max).collect();
@@ -19,7 +20,8 @@ mod tests
     }
 
     #[test]
-    fn zip_with_maxes_meth() {
+    fn zip_with_maxes_meth() 
+    {
         let left = vec![1, 2, 9];
         let right = vec![4, 5, 6];
         let result: Vec<&u8> = left.iter().zip_with(right.iter(), max).collect();
@@ -31,7 +33,8 @@ mod tests
 /// ZipWith struct
 #[derive(Clone)]
 #[must_use = "iterator adaptors are lazy and do nothing unless consumed"]
-pub struct ZipWith<T, U, F> {
+pub struct ZipWith<T, U, F> 
+{
     left: T,
     right: U,
     zipper: F
